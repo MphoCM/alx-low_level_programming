@@ -1,77 +1,39 @@
-#include "search.h"
-#include <stddef.h>
-#include <stdio.h>
-
+#include "search_algos.h"
 
 /**
- * * printArray - Prints the elements of an array.
- * * @array: The array to be printed.
- * * @size: The size of the array.
- * */
-void printArray(int *array, size_t size)
-{
-		size_t i;
-
-			printf("Searching in array: ");
-				for (i = 0; i < size; i++)
-						{
-									printf("%d", array[i]);
-											if (i < size - 1)
-														{
-																		printf(", ");
-																				}
-												}
-					printf("\n");
-}
-
-/**
- * * binary_search - Searches for a value in a sorted array using binary search.
- * * @array: The sorted array to search in.
- * * @size: The size of the array.
- * * @value: The value to search for.
- * *
- * * Return: The index of the value in the array, or -1 if not found.
- * */
+ * * binary_search - Searches for a value in a sorted array
+  *                 of integers using binary search.
+  * @array: A pointer to the first element of the array to search.
+  * @size: The number of elements in the array.
+  * @value: The value to search for.
+  *
+  * Return: If the value is not present or the array is NULL, -1.
+  *         Otherwise, the index where the value is located.
+  *
+  * Description: Prints the [sub]array being searched after each change.
+  */
 int binary_search(int *array, size_t size, int value)
 {
-		size_t left = 0;
-			size_t right = size - 1;
-				/* size_t mid; */
-				size_t mid = left + (right - left) / 2;
+	size_t i, left, right;
 
-					if (array == NULL)
-								return (-1);
-						printArray(array, size);
-							if (mid && mid % 2 == 0)
-										mid--;
+	if (array == NULL)
+		return (-1);
 
+	for (left = 0, right = size - 1; right >= left;)
+	{
+		printf("Searching in array: ");
+		for (i = left; i < right; i++)
+			printf("%d, ", array[i]);
+		printf("%d\n", array[i]);
 
+		i = left + (right - left) / 2;
+		if (array[i] == value)
+			return (i);
+		if (array[i] > value)
+			right = i - 1;
+		else
+			left = i + 1;
+	}
 
-								while (left <= right)
-										{
-													mid = left + (right - left) / 2;
-
-
-															if (array[mid] == value)
-																		{
-																						return (mid);
-																								}
-																	else if (array[mid] < value)
-																				{
-																								left = mid + 1;
-																										}
-																			else if (array[mid] > value)
-																						{
-																										right = mid - 1;
-																												}
-																					else
-																								{
-																												return (-1);
-																														}
-																							if (left <= right)
-																										{
-																														printArray(&array[left], right - left + 1);
-																																}
-																								}
-									return (-1);
+	return (-1);
 }
